@@ -1,4 +1,6 @@
-name: CI Test Workflow
+# .github/workflows/deploy.yml
+
+name: CI Build Test
 
 on:
   push:
@@ -6,21 +8,16 @@ on:
       - main
 
 jobs:
-  test-build:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ✅ 코드 체크아웃
+      - name: 코드 체크아웃
         uses: actions/checkout@v3
 
-      - name: 🐳 Docker 설치 확인
-        run: docker --version
+      - name: Docker 셋업
+        uses: docker/setup-buildx-action@v2
 
-      - name: 🛠️ Docker 이미지 빌드 시도
+      - name: Docker 빌드
         run: |
-          echo "🔧 빌드를 시작합니다."
-          docker build -t test-image .
-
-      - name: ✅ 완료 메시지
-        run: echo "🎉 테스트 완료!"
-
+          docker build -t nextcloud-test .
